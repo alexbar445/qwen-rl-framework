@@ -42,3 +42,9 @@ export rather than relying on additional files in a developer's checkout.
 Describe the problem and the change, note compatibility or configuration effects, and link the relevant CI or runtime evidence. For documentation-only updates, state which source interfaces or release records the text reflects; keep relative links within the exported public tree.
 
 Unless a contribution is explicitly marked otherwise, contributions submitted for inclusion are offered under the repository's Apache-2.0 license, subject to the terms in [LICENSE](LICENSE). Third-party contributions or assets keep their own terms and must be identified separately.
+
+For release qualification, build from the committed export described in
+[Packaging](docs/PUBLIC_RELEASE.md). Incremental `build/` output can retain files
+that have been deleted from source; the installed-artifact tests explicitly
+reject the retired experiment modules. A clean export avoids carrying such
+local build products into a new wheel.

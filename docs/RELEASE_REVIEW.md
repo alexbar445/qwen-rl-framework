@@ -41,3 +41,17 @@ configuration failure before allocator setup, wheel contents and installed usage
 CPU tests, wheel installation, documentation examples and source scans qualify
 only those scopes. This cleanup adds no GPU, model-quality or physical multi-host
 claim. Python3.11 is a CI target; local qualification uses Python3.12 on Linux.
+
+## Recorded checks
+
+The implementation at `1b07324560c12e357c59223104e1662b7d8f1920` passed:
+
+- 100 CPU/core/retirement/documentation tests in the review checkout.
+- 102 tests against the committed public export, including independent offline
+  wheel installation, outside-checkout execution, and retired-module absence.
+- Gitleaks8.30.1 source scan: zero findings after the existing reviewed exceptions.
+
+The complete extension example produced `[0.0, 1.0]`; relative documentation links
+were checked locally. The source archive carries its own generated manifest and
+qualification record. These results bind the stated code revision; this final
+documentation entry records the results without changing runtime code.
