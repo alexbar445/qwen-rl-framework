@@ -1,0 +1,9 @@
+include LICENSE
+include NOTICE
+include README.md
+include README.zh-CN.md
+include THIRD_PARTY_NOTICES.md
+include pyproject.toml
+recursive-include qwen_rl/resources/arc *.md *.txt
+prune vendor
+exclude toolkit-dependency.json

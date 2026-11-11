@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f3f6f4">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27%230f766e%27/%3E%3Ctext x=%2732%27 y=%2745%27 text-anchor=%27middle%27 fill=%27white%27 font-size=%2742%27 font-family=%27sans-serif%27%3EQ%3C/text%3E%3C/svg%3E">
+  <title>Qwen RL · Training workspace</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script defer id="echarts-vendor" src="/static/vendor/echarts.min.js"></script>
+  <script type="module" src="/static/js/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#/overview" aria-label="Qwen RL training workspace">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="brand-copy"><strong>Qwen RL</strong><small>Training workspace</small></span>
+      </a>
+      <div class="workspace-label">RUN MONITOR</div>
+      <nav class="nav" id="nav" aria-label="主导航"></nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-source">
+          <span class="source-dot" id="sidebar-source-dot"></span>
+          <div><b id="sidebar-source-title">连接中</b><small id="sidebar-source-detail">等待工作区快照</small></div>
+        </div>
+        <div class="sidebar-run"><small>SELECTED RUN</small><b id="sidebar-run">—</b></div>
+        <span class="sidebar-readonly"><i></i>只读监控</span>
+      </div>
+    </aside>
+
+    <div class="main-frame">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button mobile-menu" id="mobile-menu" type="button" aria-label="展开导航"></button>
+          <div class="breadcrumbs"><span>QWEN RL</span><i>/</i><b id="breadcrumb-current">总览</b></div>
+        </div>
+        <div class="topbar-actions">
+          <label class="source-picker"><span>SOURCE</span><select id="source-select" aria-label="选择数据来源" disabled></select></label>
+          <label class="run-picker"><span>RUN</span><select id="run-select" aria-label="选择运行记录"></select></label>
+          <div class="sync-pill" id="sync-state"><i></i><span id="sync-text">正在读取</span></div>
+          <button class="icon-button" id="theme-toggle" type="button" aria-label="切换主题" title="切换浅色 / 深色主题"></button>
+          <button class="button button-quiet" id="refresh-button" type="button"><span id="refresh-icon"></span>刷新</button>
+          <label class="auto-toggle"><input id="auto-refresh" type="checkbox"><span class="toggle"></span><span>自动</span></label>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <header class="page-heading">
+          <div>
+            <div class="eyebrow" id="page-eyebrow">OPERATIONS OVERVIEW</div>
+            <h1 id="page-title">总览</h1>
+            <p id="page-description">训练、采样与运行证据。</p>
+          </div>
+          <div class="page-heading-meta"><span id="generated-at">—</span><span class="build-tag" id="build-tag">build —</span></div>
+        </header>
+        <div id="global-notice"></div>
+        <section class="view-slot" id="view-slot" aria-live="polite">
+          <div class="loading-state"><span class="loader"></span><b>正在整理运行证据</b><small>读取只读工作区快照</small></div>
+        </section>
+        <footer class="workspace-footer">
+          <span>READ-ONLY VIEW</span><i></i><span id="footer-source">watch JSON · run records · BEPA ledger</span><span class="footer-spacer"></span><span id="footer-updated">—</span>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div class="mobile-backdrop" id="mobile-backdrop" hidden></div>
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+  <aside class="detail-drawer" id="detail-drawer" aria-hidden="true" aria-label="运行详情"></aside>
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "Published NVIDIA repository GPG fingerprint, not a private key"
+condition = "AND"
+regexTarget = "match"
+paths = ['''(^|/)qwen_rl/cluster/host\.py$''']
+regexes = ['''_NVIDIA_KEY_FINGERPRINT = "C95B321B61E88C1809C4F759DDCAE044F796ECB0"''']
+
+[[rules.allowlists]]
+description = "Idempotency f-string expressions; these contain variable names, not token values"
+condition = "AND"
+regexTarget = "line"
+paths = ['''(^|/)qwen_rl/bepa/store\.py$''']
+regexes = ['''^\s*self\._record_job_usage\(conn, row, tokens=usage_tokens, idempotency_key=f"(?:complete|failure):\{idempotency_key\}", usage_is_total=usage_is_total, attempt_fence=fence\)\s*$''']
+
+[[rules.allowlists]]
+description = "Private-file reader label and byte limit, not credential contents"
+condition = "AND"
+regexTarget = "line"
+paths = ['''(^|/)qwen_rl/deployment/vast/learner_entrypoint\.py$''']
+regexes = ['''^\s*payload = _read_private_file\(credential_map_path, label="credential_map", maximum_bytes=64 \* 1024\)\s*$''']

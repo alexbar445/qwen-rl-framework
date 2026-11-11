@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qwen-rl-framework"
+version = "0.1.0"
+description = "Distributed reinforcement learning framework for language model training"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
+requires-python = ">=3.11,<3.13"
+dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "httpx>=0.27,<1", "pydantic>=2.9,<3", "PyYAML>=6,<7", "blosc2==4.14.1", "jsonschema>=4.23,<5"]
+
+[project.optional-dependencies]
+constrained = ["xgrammar>=0.2.7,<0.3", "apache-tvm-ffi>=0.1.10"]
+teacher = ["openai==3.26.1"]
+runtime = ["rich==15.0.0"]
+profile = ["ijson>=3.4,<4"]
+ternary-kernels = ["qwen-rl-ternary-kernels==0.1.0", "fast-hadamard-transform==1.1.0", "flash-linear-attention==0.5.2", "fla-core==0.5.2"]
+# Build against the pinned Learner Torch/CUDA environment.
+ternary-tp = ["flash-attn==2.8.3", "causal-conv1d==1.7.0"]
+learner = [
+    "numpy>=2,<3",
+    "ffpa-attn==0.2.4",
+    "pyarrow>=19",
+    "transformers==5.12.1",
+    "hydra-core>=1.3,<2",
+    "trl @ git+https://github.com/huggingface/trl.git@72cf37df714d3183e8e96ec391d474b26eaa30b6",
+    # Pinned AgentLoop and continuous-token interfaces.
+    "verl @ git+https://github.com/verl-project/verl.git@fc72e2f384212470868a9928b62baedb9bcc3ff0",
+    "torch==2.13.0",
+    "torchao==0.18.0",
+    "peft==0.21.2",
+]
+worker = ["vllm==0.29.0", "torchao==0.18.0", "transformers==5.12.1"]
+test = ["pytest==9.1.1", "pytest-asyncio==1.4.0"]
+
+[project.scripts]
+qwen-rl = "qwen_rl.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["qwen_rl*"]
+namespaces = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.package-data]
+"qwen_rl._vendor.ninfer_artifact" = ["LICENSE", "UPSTREAM.md"]
+"qwen_rl.dashboard" = ["static/*.html", "static/*.css", "static/*.js", "static/js/*.js", "static/js/views/*.js", "static/vendor/*"]
+"qwen_rl.resources.arc" = ["*.md", "*.txt"]

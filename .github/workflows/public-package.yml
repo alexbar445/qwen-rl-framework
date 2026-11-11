@@ -1,0 +1,47 @@
+name: Public package smoke
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  core-and-wheel:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install snapshot test runner
+        run: python -m pip install "pytest==9.1.1" "setuptools>=77" wheel
+      - name: Check public snapshot exporter
+        run: python -m pytest -q tests/test_public_snapshot.py
+      - name: Export reviewed source allowlist
+        run: python tools/build_public_snapshot.py --output "${RUNNER_TEMP}/qwen-rl-public-snapshot" --ref HEAD
+      - name: Install pinned source scanner
+        run: |
+          curl --fail --location --output "${RUNNER_TEMP}/gitleaks.tar.gz" https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  ${RUNNER_TEMP}/gitleaks.tar.gz" | sha256sum --check
+          tar -xzf "${RUNNER_TEMP}/gitleaks.tar.gz" -C "${RUNNER_TEMP}" gitleaks
+      - name: Scan the actual public source snapshot
+        run: "${RUNNER_TEMP}/gitleaks dir ${RUNNER_TEMP}/qwen-rl-public-snapshot --config ${RUNNER_TEMP}/qwen-rl-public-snapshot/.gitleaks.toml --redact --no-banner"
+      - name: Build offline wheelhouse for public base and test extras
+        working-directory: ${{ runner.temp }}/qwen-rl-public-snapshot
+        run: python -m pip wheel --no-build-isolation --wheel-dir "${RUNNER_TEMP}/qwen-rl-public-wheelhouse" ".[test]"
+      - name: Install public wheel and test extras from the offline wheelhouse
+        working-directory: ${{ runner.temp }}/qwen-rl-public-snapshot
+        run: python -m pip install --no-index --find-links "${RUNNER_TEMP}/qwen-rl-public-wheelhouse" "qwen-rl-framework[test]"
+      - name: Run offline core protocol and example tests
+        working-directory: ${{ runner.temp }}/qwen-rl-public-snapshot
+        run: python -m pytest -q tests --ignore=tests/test_public_packaging.py
+      - name: Install and inspect public wheel outside the checkout
+        working-directory: ${{ runner.temp }}/qwen-rl-public-snapshot
+        env:
+          PUBLIC_WHEELHOUSE: ${{ runner.temp }}/qwen-rl-public-wheelhouse
+          PUBLIC_WHEEL_PATH: ${{ runner.temp }}/qwen-rl-public-wheelhouse/qwen_rl_framework-0.1.0-py3-none-any.whl
+        run: python -m pytest -q tests/test_public_packaging.py

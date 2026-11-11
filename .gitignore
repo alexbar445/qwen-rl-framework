@@ -1,0 +1,70 @@
+# environments / weights (large, reconstructible)
+/envs
+/models
+*.safetensors
+# run artifacts: episode trees, adapters, checkpoints, logs (small summaries stay tracked)
+outputs/**/episodes/
+outputs/**/checkpoints/
+outputs/**/adapter/
+outputs/*.log
+data/**/episodes/
+# per-episode audit jsonl (regenerable); summaries/, launch.json and hydra dumps stay tracked
+outputs/**/audit/
+*.log
+# caches / bytecode
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+outputs/**/runtime.token
+outputs/local-runtime/teacher.token
+outputs/local-runtime/teacher-bridge.json
+outputs/local-runtime/deployment.lock
+outputs/local-runtime/.teacher-bridge-*
+
+# pytest scratch directories
+outputs/**/*-tmp*/
+
+# Local durable BEPA state is kept on disk; export JSON evidence for version control.
+outputs/**/state.sqlite3*
+outputs/**/optimizer.pt
+outputs/**/scheduler.pt
+outputs/**/rng_state.pth
+outputs/cluster-validation/
+
+# Host-owned Worker secrets and container state are runtime-only.
+outputs/local-worker-services/
+# Export reviewed validation summaries to journal instead of committing scratch.
+outputs/refactor-validation/
+
+# Single-worker speed raw tree and isolated-worktree symlink stay local; curated summary is in journal/
+outputs/worker-speed
+# Private deployment bundles and acceptance scratch remain runtime-only.
+outputs/learner-deployment-validation/
+# Fleet enrollment and disposable-node diagnostics remain private runtime evidence.
+outputs/fleet-validation/
+
+# Worker throughput raw runs and isolated source snapshots remain local evidence.
+outputs/worker-speed-v2/
+
+# Large profiler traces stay local; receipts and operator summaries are tracked.
+outputs/**/*.trace.json
+outputs/**/*.trace.json.gz
+
+# Runtime outputs remain local; explicitly stage reviewed small receipts.
+/outputs/
+
+# Public checkout: local environments, training state and credentials are not source.
+.venv/
+.ruff_cache/
+/RL_output/
+/checkpoints/
+/runs/
+/wheelhouse/
+/minimal-run/
+/local-config/
+.env
+.env.*
+!.env.example

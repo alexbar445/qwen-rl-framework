@@ -1,0 +1,58 @@
+{
+  "source_commit": "36e0b099db2137fe9887d20923eb7c7959c46a0e",
+  "source_files": 468,
+  "source_bytes": 9916719,
+  "qualified_utc": "2026-11-11T12:31:08.335481+00:00",
+  "python": "3.12.8",
+  "platform": "Linux x86_64",
+  "source_core_cpu_tests": 90,
+  "source_arc_and_build_regressions": 85,
+  "exported_snapshot_tests": 92,
+  "exported_snapshot_command": "PUBLIC_WHEELHOUSE=<prepared-wheelhouse> PUBLIC_WHEEL_PATH=<built-wheel> python -m pytest -q tests",
+  "offline_installed_wheel_checks": [
+    "pip check",
+    "module origin inside fresh venv",
+    "CLI outside checkout",
+    "HTTP control-plane import without Torch or ARC",
+    "minimal real coordinator/update path",
+    "source identity and corrupted checkpoint rejection",
+    "ARC missing toolkit gives explicit error",
+    "license/resource/vendor boundaries"
+  ],
+  "secret_scanner": {
+    "tool": "Gitleaks8.30.1",
+    "scope": "Exported source snapshot, not private Git history",
+    "reviewed_exceptions": "Public NVIDIA repository signing fingerprint and exact nonsecret code expressions; per-rule AND path/content conditions",
+    "findings_after_review": 0,
+    "negative_control": {
+      "allowed_public_fingerprint": true,
+      "fake_PAT_in_same_file_rejected": true,
+      "exit_codes": [
+        0,
+        1
+      ],
+      "allowance_scope": "per-rule AND exact match + path; never global path bypass"
+    }
+  },
+  "wheel": {
+    "filename": "qwen_rl_framework-0.1.0-py3-none-any.whl",
+    "bytes": 2525647,
+    "sha256": "23b36cfacff6015531929e3f5de6e7c6a9762aaa58bc37f8f3b3babfb278a845"
+  },
+  "limits": [
+    "CPU toy scalar policy/real Adam; not a language-model quality result",
+    "No new GPU or physical multi-host qualification",
+    "ARC external toolkit and model/native-runtime assets require separate provenance/installation",
+    "Python3.11 CI configured; local qualification was Python3.12 only"
+  ],
+  "publication": {
+    "github_repository_name": "qwen-rl-framework",
+    "remote_published": false,
+    "reason": "GitHub account integration has not been connected"
+  },
+  "validation_notes": [
+    "Final exported tree: 92 passed, no skips or failures.",
+    "Final source checkout ARC/build regression set: 85 passed, one Starlette deprecation warning.",
+    "Python3.12 local qualification; Python3.11 remains a configured CI target."
+  ]
+}
