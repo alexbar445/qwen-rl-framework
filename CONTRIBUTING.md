@@ -18,7 +18,7 @@ tests without requiring a prebuilt wheel:
 
 ```bash
 python -m pip install '.[test]'
-python -m pytest -q tests --ignore=tests/test_public_packaging.py
+python -m pytest -q tests --ignore=tests/test_public_packaging.py --ignore=tests/test_small_model_engine.py
 ```
 
 The two installed-artifact tests need a prepared wheelhouse. They create their
@@ -48,3 +48,18 @@ For release qualification, build from the committed export described in
 that have been deleted from source; the installed-artifact tests explicitly
 reject the retired experiment modules. A clean export avoids carrying such
 local build products into a new wheel.
+
+## Small-model training checks
+
+Use a separate CPU environment and the installation commands in
+[the small-model recipe](examples/small_model/README.md). Install `.[test]`
+there too, then run:
+
+```bash
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m pytest -q tests/test_small_model_engine.py tests/test_training_runner.py tests/test_training_config.py
+```
+
+These tests build a tiny local Transformer and exercise actual LoRA gradients,
+AdamW, publication and complete-state recovery, including fresh CLI processes.
+They require no downloaded model. The pretrained 135M qualification is a separate
+bounded integration run documented with the recipe; CI does not claim to repeat it.

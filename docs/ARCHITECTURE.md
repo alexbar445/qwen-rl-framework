@@ -31,6 +31,20 @@ An `Environment` owns the task catalog, fixture task, stable prompt/reward/sourc
 
 `create_learner_app(..., environment=..., reward_scorer=...)` selects this generic boundary and does not load the ARC task source, prompt builder, ARC service, or ARC AgentLoop. BEPA and held-out ARC evaluation remain ARC-adapter features in this public snapshot; the generic injection path rejects those settings rather than silently treating them as supported.
 
+## Small-model CLI path
+
+The [small-model recipe](../examples/small_model/README.md) uses a separate,
+single-process composition for JSONL tasks. The loader validates each row at
+the input boundary and hands a typed `Task` to reward code. The runner loads a
+pinned causal language model with a LoRA adapter, samples four constrained
+one-token completions per group, keeps their sampled behavior
+log-probabilities, scores the completions, and applies a group-relative
+GRPO-style update with PyTorch AdamW. The user-facing extension points are the
+JSONL records and a reward callable; they do not include the engine, Worker
+managers, or pool. Checkpoint resume preserves the run lineage and optimizer
+state. The recipe is CPU-only and does not qualify GPU or multi-host execution
+or general language capability.
+
 ## Backends and topology
 
 The coordinator describes shared control flow. It does not make a backend, model, placement, or network topology interchangeable. Learner engines own optimizer/model computation; Worker managers own generation and policy synchronization; deployment adapters provide runtime and host setup. Each such profile needs its own dependencies, configuration, assets, and evidence. See the [support matrix](SUPPORT.md) before interpreting source presence as a validated deployment.

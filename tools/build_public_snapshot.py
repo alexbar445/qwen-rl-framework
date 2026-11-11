@@ -29,6 +29,7 @@ INCLUDE = (
     "tests/test_instance_release.py",
     "tests/test_environment*.py", "tests/test_generic*.py",
     "tests/test_minimal_example.py", "tests/test_public*.py",
+    "tests/test_training_*.py", "tests/test_small_model_*.py",
 )
 REQUIRED = (
     "README.md", "LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "pyproject.toml",

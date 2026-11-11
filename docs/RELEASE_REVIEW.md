@@ -59,7 +59,8 @@ documentation entry records the results without changing runtime code.
 ## Final architecture and first-user review
 
 The shared task/reward, group-admission, update and recovery boundaries are useful
-for framework developers. The outer user workflow still needs refinement:
+for framework developers. The review identified the following outer-workflow gaps. The small-model update
+below addresses the ordinary local task-author workflow:
 
 1. The CPU demonstration is reproducible, but there is no complete public
    small-model training recipe with configuration, dataset preparation, model
@@ -85,3 +86,25 @@ Quick start now starts from acquired source and an isolated virtual environment.
 Wheel-only readers are told that the full guides are in the source distribution;
 a hosted documentation URL still depends on publication of the remote repository.
 This is a developer walkthrough, not a usability study of external users.
+
+## Small-model user workflow
+
+The recommended local entry point is now `qwen-rl train`. The pinned SmolLM2
+recipe includes original JSONL tasks, real HF/PEFT LoRA sampling and AdamW updates,
+and complete checkpoint recovery. Ordinary authors supply a frozen `Task` and a
+`reward(task, completion) -> float`; the runner hides Worker and engine plumbing.
+Advanced Environment and deployment interfaces remain available for their
+separate roles. This local profile is deliberately single-process and CPU-only.
+
+The existing rollout/update/recovery core is reused. Its only execution change
+is an opt-in sequential-update mode that waits for publication before the next
+sampling group; existing asynchronous defaults are unchanged. The local recovery
+cursor includes filtered refill attempts. Failed or filtered-limit runs return a
+nonzero CLI status.
+
+The [source-bound qualification](../examples/small_model/QUALIFICATION.json)
+records actual pretrained 135M execution and fresh-process recovery equivalence.
+CI separately tests actual gradients with an offline tiny Transformer. Base
+CLI/config/task tests need no model dependencies; installed-wheel checks exercise
+the new public API and help outside the checkout. No GPU, physical multi-host or
+model-quality claim is added by this qualification.

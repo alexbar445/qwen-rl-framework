@@ -38,10 +38,27 @@ jobs:
         run: python -m pip install --no-index --find-links "${RUNNER_TEMP}/qwen-rl-public-wheelhouse" "qwen-rl-framework[test]"
       - name: Run offline core protocol and example tests
         working-directory: ${{ runner.temp }}/qwen-rl-public-snapshot
-        run: python -m pytest -q tests --ignore=tests/test_public_packaging.py
+        run: python -m pytest -q tests --ignore=tests/test_public_packaging.py --ignore=tests/test_small_model_engine.py
       - name: Install and inspect public wheel outside the checkout
         working-directory: ${{ runner.temp }}/qwen-rl-public-snapshot
         env:
           PUBLIC_WHEELHOUSE: ${{ runner.temp }}/qwen-rl-public-wheelhouse
           PUBLIC_WHEEL_PATH: ${{ runner.temp }}/qwen-rl-public-wheelhouse/qwen_rl_framework-0.1.0-py3-none-any.whl
         run: python -m pytest -q tests/test_public_packaging.py
+
+  small-model:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install CPU model dependencies
+        run: |
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.10.0"
+          python -m pip install ".[small-model,test]"
+      - name: Test real neural updates and fresh-process resume with an offline tiny model
+        env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
+        run: python -m pytest -q tests/test_small_model_engine.py tests/test_training_runner.py tests/test_training_config.py

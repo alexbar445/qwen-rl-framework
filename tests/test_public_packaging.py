@@ -100,6 +100,14 @@ def test_installed_wheel_cli_demo_and_core_contract_work_outside_checkout(tmp_pa
     subprocess.run([str(python), "-m", "qwen_rl.examples.minimal"], cwd=tmp_path, env=env, check=True,
                    capture_output=True, text=True)
 
+    subprocess.run([str(qwen_cli), "train", "--help"], cwd=tmp_path, env=env, check=True,
+                   capture_output=True, text=True)
+    subprocess.run([str(python), "-c",
+                    "from qwen_rl.training import Task, RewardFn, train; import sys; "
+                    "assert 'torch' not in sys.modules; "
+                    "assert Task('one', 'True?', 'yes').answer == 'yes'"],
+                   cwd=tmp_path, env=env, check=True, capture_output=True, text=True)
+
     missing_arc = (
         "from qwen_rl.prompt import system_prompt\n"
         "try:\n"

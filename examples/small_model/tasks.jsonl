@@ -1,0 +1,12 @@
+{"task_id":"sum-01","prompt":"Does 2 plus 2 equal 4? Answer yes or no.","answer":"yes"}
+{"task_id":"sum-02","prompt":"Does 3 plus 4 equal 7? Answer yes or no.","answer":"yes"}
+{"task_id":"sum-03","prompt":"Does 5 plus 1 equal 7? Answer yes or no.","answer":"no"}
+{"task_id":"subtract-01","prompt":"Does 8 minus 3 equal 5? Answer yes or no.","answer":"yes"}
+{"task_id":"subtract-02","prompt":"Does 9 minus 2 equal 8? Answer yes or no.","answer":"no"}
+{"task_id":"subtract-03","prompt":"Does 10 minus 4 equal 7? Answer yes or no.","answer":"no"}
+{"task_id":"multiply-01","prompt":"Does 2 times 3 equal 6? Answer yes or no.","answer":"yes"}
+{"task_id":"multiply-02","prompt":"Does 4 times 2 equal 9? Answer yes or no.","answer":"no"}
+{"task_id":"multiply-03","prompt":"Does 3 times 3 equal 9? Answer yes or no.","answer":"yes"}
+{"task_id":"mixed-01","prompt":"Does 1 plus 8 equal 10? Answer yes or no.","answer":"no"}
+{"task_id":"mixed-02","prompt":"Does 7 minus 5 equal 2? Answer yes or no.","answer":"yes"}
+{"task_id":"mixed-03","prompt":"Does 6 plus 2 equal 9? Answer yes or no.","answer":"no"}

@@ -518,6 +518,7 @@ class RunCoordinator:
         async with services.update_lock:
             references = execution.references
             phase_shared = cfg["learner"].get("gpu_sharing") == "phase_shared"
+            sequential_updates = phase_shared or cfg["rollout"].get("sequential_updates", False)
             phase_controller = None
             if phase_shared:
                 if getattr(getattr(runtime, "gpu_phase_controller", None), "state", None) == "failed":
@@ -676,7 +677,7 @@ class RunCoordinator:
             else:
                 for update_index in range(remaining_steps):
                     behavior_version = initial_snapshot.version + (
-                        update_index if phase_shared else max(0, update_index - 1)
+                        update_index if sequential_updates else max(0, update_index - 1)
                     )
                     references.demand_remaining[behavior_version] = (
                         references.demand_remaining.get(behavior_version, 0) + needed_groups
@@ -692,8 +693,8 @@ class RunCoordinator:
                         round_size if central_gradient
                         else int(cfg["rollout"]["concurrent_tasks"])
                     ),
-                    max_outstanding_groups=(needed_groups if phase_shared else queue_batches * needed_groups),
-                    **({"sequential_updates": True} if phase_shared or central_gradient else {}),
+                    max_outstanding_groups=(needed_groups if sequential_updates else queue_batches * needed_groups),
+                    **({"sequential_updates": True} if sequential_updates or central_gradient else {}),
                     **({"round_mode": True, "round_size": round_size} if central_gradient else {}),
                     max_filtered=max_filtered,
                     dispatch=group_session.dispatch_group,
@@ -1120,10 +1121,12 @@ class RunCoordinator:
                     raise RuntimeError("early Worker ACK differs from the committed policy")
             else:
                 await handoff_coordinator.start(update_result, stream)
-            if phase_controller is not None:
+            if (phase_controller is not None
+                    or self.services.config["rollout"].get("sequential_updates", False)):
                 error = await handoff_coordinator.settle(wait=True)
                 if error is not None:
                     raise error
+            if phase_controller is not None:
                 await phase_controller.begin_sampling(
                     PolicySnapshot.from_policy(latest_policy())
                 )

@@ -8,6 +8,7 @@ from typing import Sequence
 
 
 _GROUPS = {
+    "train": ("qwen_rl.training.cli", "Start here: local small-model training and complete-state resume"),
     "instance": ("qwen_rl.deployment.instance_cli", "Advanced: profile-managed setup, recovery, monitoring, and shutdown"),
     "vast": ("qwen_rl.deployment.vast.cli", "Advanced: prepare and attach prebuilt Vast roles without renting"),
     "local": ("qwen_rl.deployment.local", "Advanced: explicit host Docker deployment profiles and credential bridge"),

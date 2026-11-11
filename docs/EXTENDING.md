@@ -2,6 +2,14 @@
 
 The generic extension point is an `Environment` plus a `RewardScorer`. The environment supplies tasks and complete rollout groups; the scorer assigns one reward per trajectory. The small example below can be imported and constructed without starting a service, loading a model, or using a GPU.
 
+For a bounded real-model task that fits a JSONL dataset and a scalar reward,
+start with the [small-model CPU recipe](../examples/small_model/README.md).
+That command path accepts the task rows and reward directly; it does not ask
+you to build an `Environment`, engine, Worker manager, or pool. It validates
+JSONL records once at input, then passes typed `Task` objects to the reward
+function. The generic `Environment` example below remains useful when a task
+needs custom rollout behavior or application composition.
+
 ```python
 import asyncio
 import math
@@ -119,6 +127,6 @@ Keep `source_identity` stable for unchanged task and rule semantics, and change 
 
 ## Use in an application
 
-The application factory is `create_learner_app` in `qwen_rl.learner.app`. Pass your prepared `environment=` and `reward_scorer=` when constructing the application; the factory also needs the application's config and, for a controlled local setup, its chosen engine and Worker managers. This is an application integration point, not a standalone command. When a custom environment is supplied, a scorer is required; `arc_app` cannot be combined with that path. BEPA and held-out evaluation currently require the ARC adapter and are rejected for custom environments.
+The application factory is `create_learner_app` in `qwen_rl.learner.app`. Pass your prepared `environment=` and `reward_scorer=` when constructing the application; the factory also needs the application's config and, for a controlled local setup, its chosen engine and Worker managers. This is an application integration point, not a standalone command. When a custom environment is supplied, a scorer is required; `arc_app` cannot be combined with that path. BEPA and held-out evaluation currently require the ARC adapter and are rejected for custom environments. For the simpler JSONL-based real-model flow, use `qwen-rl train` and the [small-model recipe](../examples/small_model/README.md) instead of constructing this application factory.
 
 If both arguments are omitted, the factory selects the existing ARC environment and scorer. See [Architecture](ARCHITECTURE.md) for the shared path and [Support](SUPPORT.md) for the evidence boundary.

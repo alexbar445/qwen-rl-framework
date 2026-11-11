@@ -1,0 +1,29 @@
+schema: qwen-rl-training/v1
+model:
+  id: HuggingFaceTB/SmolLM2-135M
+  revision: 93efa2f097d58c2a74874c7e644dbc9b0cee75a2
+  device: cpu
+  dtype: float32
+  lora_rank: 4
+  lora_alpha: 8
+  lora_targets:
+    - q_proj
+    - v_proj
+training:
+  seed: 7
+  group_size: 4
+  learning_rate: 0.001
+  epsilon: 0.5
+  clip_ratio: 0.2
+  importance_cap: 3.0
+  num_threads: 2
+  max_prompt_tokens: 256
+  max_filtered_groups: 64
+task:
+  data: tasks.jsonl
+  choices:
+    - " yes"
+    - " no"
+  reward: qwen_rl.training.tasks:exact_match_reward
+  reward_schema: exact-match/v1
+  source_identity: arithmetic-yesno/v1

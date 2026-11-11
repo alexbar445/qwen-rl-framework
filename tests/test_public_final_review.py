@@ -5,7 +5,7 @@ import sys
 import pytest
 
 
-@pytest.mark.parametrize("group", ["instance", "vast", "local", "learner", "runtime",
+@pytest.mark.parametrize("group", ["train", "instance", "vast", "local", "learner", "runtime",
                                   "cluster", "dashboard", "gradients"])
 def test_public_command_help_does_not_import_missing_profiles_or_model_runtimes(group):
     code = """
