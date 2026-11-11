@@ -40,7 +40,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="qwen-rl instance",
         description="Set up, check, and operate one RL instance on Docker, Vast, or AutoDL.",
-        epilog="First use: setup --interactive --output-dir /path/to/config. Then use one deployment.json for doctor, serve, watch, and stop-now or stop-after-checkpoint.",
+        epilog="First use: supply a prepared --runtime-config YAML to setup. This distribution does not bundle a default model/deployment template. Use the resulting deployment.json for subsequent operations.",
     )
     parser.add_argument("--deployment", type=Path, help="deployment JSON path; required except for setup")
     parser.add_argument(
@@ -50,9 +50,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     commands = parser.add_subparsers(dest="command", required=True)
     setup = commands.add_parser("setup", help="generate a local deployment from prepared model/data paths")
-    setup.add_argument("--runtime-config", type=Path,
-                       default=Path(__file__).resolve().parents[2] / "configs/local-bonsai2-async-bepa.yaml",
-                       help="source runtime YAML; defaults to the Bonsai2 template")
+    setup.add_argument("--runtime-config", type=Path, required=True,
+                       help="prepared runtime YAML; no model template is bundled")
     setup.add_argument("--output-dir", required=True, type=Path, help="new directory for runtime.yaml and deployment.json")
     setup.add_argument("--model-path", type=Path)
     setup.add_argument("--dataset-dir", type=Path)

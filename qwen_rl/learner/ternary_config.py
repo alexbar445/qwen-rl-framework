@@ -239,6 +239,11 @@ def load_ternary_compute_config(path: str | Path) -> TernaryComputeConfig:
     except (json.JSONDecodeError, yaml.YAMLError) as exc:
         raise TernaryComputeConfigError("compute profile is invalid JSON/YAML") from exc
     data = _mapping(loaded, "compute profile")
+    training = data.get("training")
+    if isinstance(training, dict) and training.get("objective") == "compression_recovery":
+        raise TernaryComputeConfigError(
+            "compression_recovery profiles are no longer supported by learner compute"
+        )
     extra = sorted(set(data) - TERNARY_COMPUTE_PROFILE_FIELDS)
     if extra:
         raise TernaryComputeConfigError(f"unknown compute profile field(s): {extra}")

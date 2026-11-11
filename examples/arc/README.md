@@ -7,3 +7,5 @@ Before using an ARC integration, confirm that the selected public release includ
 Treat an ARC score as scoped to its exact dataset split, task source, verifier, model, prompt, and run configuration. A diagnostic run, finite sample, replay, or toy example is not evidence of broad ARC generalization. Keep private evaluation answers and credentials out of logs, examples, and public issues.
 
 This page intentionally provides no command copied from the private ARC deployment workflow. Use commands only when the selected release's adapter documentation and CI or release receipts identify a runnable configuration.
+
+See the [support matrix](../../docs/SUPPORT.md) for the evidence recorded in this public snapshot and [the extension guide](../../docs/EXTENDING.md) for the generic environment boundary.

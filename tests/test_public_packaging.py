@@ -32,6 +32,10 @@ def test_wheel_contains_only_explicit_arc_resources_and_not_unknown_vendor() -> 
     assert not any("toolkit-dependency.json" in name for name in names)
     assert not any("vendor/paired-factory-v1" in name for name in names)
     assert not any("vendor/arc-taskgen-v2" in name for name in names)
+    retired = ("qwen_rl/span_pivot/", "qwen_rl/learner/compression_",
+               "qwen_rl/models/mla_recovery.py", "qwen_rl/evaluation/rank32_transition.py",
+               "qwen_rl/evaluation/evaluate_9b_pilot.py", "qwen_rl/evaluation/validate_9b_pilot.py")
+    assert not any(name.startswith(retired) for name in names)
     assert "qwen_rl/dashboard/static/vendor/ECHARTS-LICENSE.txt" in names
     assert "qwen_rl/dashboard/static/vendor/ECHARTS-NOTICE.txt" in names
     assert any(name.endswith(".dist-info/licenses/LICENSE") for name in names)

@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_DEPLOYMENT = ROOT / "configs" / "local-bonsai2-async-bepa-deployment.json"
+GRADIENT_DEPLOYMENT_PATH = ROOT / "configs" / "local-bonsai2-async-bepa-deployment.json"
 SECRET_NAMES = ("ARC_ENV_TOKEN", "BEPA_TEACHER_TOKEN", "DEEPSEEK_API_KEY")
 _DOCKER_IMAGE_REF = re.compile(
     r"^[A-Za-z0-9][A-Za-z0-9._:/-]*(?::[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}|@sha256:[0-9a-f]{64})$"
@@ -462,7 +462,7 @@ class LocalDeployment:
 
     def _assert_default_gradient_inactive(self) -> None:
         """Do not let an explicitly selected legacy deployment stop the default stack."""
-        gradient_path = self.root / "configs" / DEFAULT_DEPLOYMENT.name
+        gradient_path = self.root / "configs" / GRADIENT_DEPLOYMENT_PATH.name
         if not gradient_path.is_file() or self.config.path.resolve() == gradient_path.resolve():
             return
         try:
@@ -1201,7 +1201,7 @@ class LocalDeployment:
 
 def _extract_host_option(argv: Sequence[str]) -> tuple[Path, list[str]]:
     values = list(argv)
-    deployment = DEFAULT_DEPLOYMENT
+    deployment = None
     if values and values[0] == "--deployment":
         if len(values) < 2:
             raise DeploymentError("--deployment requires a path before the command")
@@ -1212,6 +1212,8 @@ def _extract_host_option(argv: Sequence[str]) -> tuple[Path, list[str]]:
         values = values[1:]
     if not values:
         raise DeploymentError("a qwen-rl command is required")
+    if deployment is None:
+        raise DeploymentError("--deployment PATH is required before COMMAND; this distribution has no default deployment profile")
     if any(arg == "--deployment" or arg.startswith("--deployment=") for arg in values):
         raise DeploymentError("--deployment is a host option and must appear before the command")
     if any(arg == "--config" or arg.startswith("--config=") for arg in values):
@@ -1221,9 +1223,9 @@ def _extract_host_option(argv: Sequence[str]) -> tuple[Path, list[str]]:
 
 def _usage() -> str:
     return (
-        "Usage: qwen-rl local [--deployment PATH] COMMAND [ARGS...]\n"
+        "Usage: qwen-rl local --deployment PATH COMMAND [ARGS...]\n"
         "Commands: start [--fresh], check, status, watch, run, stop, selftest, bepa, evaluate [--status]\n"
-        f"start uses configs/{DEFAULT_DEPLOYMENT.name} by default and starts owned Workers first.\n"
+        "Supply a prepared deployment profile; no default model/deployment profile is bundled.\n"
         "check verifies the Worker image/profile, provider route and deployment mounts without starting roles.\n"
         "start reuses healthy same-config roles; default central-gradient rejects --fresh (Trainer profiles opt in).\n"
         "The deployment flag must appear before COMMAND. The runtime config is fixed by deployment JSON.\n"

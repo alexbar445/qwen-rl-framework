@@ -24,8 +24,9 @@ def _load_kernel() -> Callable:
     except ImportError as exc:
         raise RuntimeError(
             'T2 BF16 forward requires qwen-rl-ternary-kernels==0.1.0; '
-            'build its wheel with tools/build_ternary_hadamard.py and install it '
-            'in the Learner Python environment before starting training'
+            'provide a qualified extension wheel matching the Learner Torch/CUDA '
+            'environment. This distribution does not bundle that wheel or its '
+            'build recipe; see docs/SUPPORT.md before selecting this backend'
         ) from exc
     kernel = getattr(package, 'fused_hadamard_forward', None)
     if getattr(package, 'API_VERSION', None) != 1 or not callable(kernel):

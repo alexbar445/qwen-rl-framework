@@ -17,7 +17,9 @@ constrained = ["xgrammar>=0.2.7,<0.3", "apache-tvm-ffi>=0.1.10"]
 teacher = ["openai==3.26.1"]
 runtime = ["rich==15.0.0"]
 profile = ["ijson>=3.4,<4"]
-ternary-kernels = ["qwen-rl-ternary-kernels==0.1.0", "fast-hadamard-transform==1.1.0", "flash-linear-attention==0.5.2", "fla-core==0.5.2"]
+# Public Python dependencies only. The separately qualified native extension is
+# not distributed here and is never downloaded or substituted automatically.
+ternary-deps = ["fast-hadamard-transform==1.1.0", "flash-linear-attention==0.5.2", "fla-core==0.5.2"]
 # Build against the pinned Learner Torch/CUDA environment.
 ternary-tp = ["flash-attn==2.8.3", "causal-conv1d==1.7.0"]
 learner = [

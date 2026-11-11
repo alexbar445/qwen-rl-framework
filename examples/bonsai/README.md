@@ -9,3 +9,5 @@ Backend and topology support is profile-specific. A T2/NInfer, NVFP4, or other o
 Paid Teacher/provider calls are external and are not started by this example or the base install. Configure a provider only when you have explicitly chosen it, supplied your own credentials, and reviewed any cost and data-handling terms.
 
 This guide avoids commands and private deployment paths until a public Bonsai configuration and its exact supported runtime are included in a release.
+
+See the [support matrix](../../docs/SUPPORT.md) for the evidence boundary and the [architecture guide](../../docs/ARCHITECTURE.md) for the shared coordinator path.

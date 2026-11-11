@@ -9,9 +9,10 @@ Contributions are welcome. Keep changes focused, explain the behavior they chang
 - Do not add model weights, datasets, credentials, local host paths, private run outputs, or third-party code whose provenance and redistribution terms are not verified.
 - Preserve existing copyright, attribution, license, and NOTICE files when changing or redistributing bundled third-party material.
 - For performance or capability claims, include the exact source revision, profile, model/artifact, hardware, workload, result, and limitations. Keep CPU, GPU, and multi-host evidence separate.
+- Keep public examples runnable against the exported package, and state whether they need external assets, services, or optional dependencies. Use the [support matrix](docs/SUPPORT.md) for evidence scope and the [architecture](docs/ARCHITECTURE.md) and [extension](docs/EXTENDING.md) guides for the public interfaces.
 
 ## Pull requests
 
-Describe the problem and the change, note compatibility or configuration effects, and link the relevant CI or runtime evidence. For documentation-only updates, state which source interfaces or release records the text reflects.
+Describe the problem and the change, note compatibility or configuration effects, and link the relevant CI or runtime evidence. For documentation-only updates, state which source interfaces or release records the text reflects; keep relative links within the exported public tree.
 
 Unless a contribution is explicitly marked otherwise, contributions submitted for inclusion are offered under the repository's Apache-2.0 license, subject to the terms in [LICENSE](LICENSE). Third-party contributions or assets keep their own terms and must be identified separately.

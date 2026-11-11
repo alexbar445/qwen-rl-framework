@@ -73,8 +73,6 @@ def build_parser() -> argparse.ArgumentParser:
                          help="optional JSONL batch of completed trajectories for one update")
     compute.add_argument("--self-smoke", action="store_true",
                          help="sample one local 3-row diagnostic group and apply one update")
-    compute.add_argument("--check", action="store_true",
-                         help="CPU-only preflight of a compression_recovery profile; no GPU or training")
 
     stop = commands.add_parser("stop", help="stop and remove only this profile's owned container")
     stop.add_argument("--timeout", type=float, default=60.0)
@@ -95,7 +93,6 @@ def _dispatch(args: argparse.Namespace) -> int:
             args.config,
             trajectories_path=args.trajectories,
             self_smoke=args.self_smoke,
-            check_only=args.check,
         ))
         return 0
     if args.command == "starter":

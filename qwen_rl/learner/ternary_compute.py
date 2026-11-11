@@ -134,24 +134,15 @@ def run_compute(
     *,
     trajectories_path: str | Path | None = None,
     self_smoke: bool = False,
-    check_only: bool = False,
 ) -> dict[str, Any]:
     """Load one frozen T2 Learner, optionally apply one supplied batch, then exit.
 
     This command accepts completed trajectories or an explicitly local
     self-smoke group. It owns no Worker and never claims an end-to-end RL run.
     """
-    from .compression_config import objective
-    if objective(profile_path) == "compression_recovery":
-        if trajectories_path is not None or self_smoke:
-            raise ValueError("compression recovery consumes teacher captures, not RL trajectories/self-smoke")
-        from .compression_recovery import run_compression_recovery
-        return run_compression_recovery(profile_path, check_only=check_only)
-    if check_only:
-        raise ValueError("--check is currently available for compression_recovery profiles only")
+    profile = load_ternary_compute_config(profile_path)
     from .cuda_allocator import configure_learner_allocator
     configure_learner_allocator()
-    profile = load_ternary_compute_config(profile_path)
     if type(self_smoke) is not bool:
         raise TypeError("self_smoke must be a boolean")
     if self_smoke and trajectories_path is not None:
