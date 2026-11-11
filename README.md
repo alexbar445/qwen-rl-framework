@@ -4,9 +4,11 @@ A Python framework for grouped rollouts and reinforcement-learning updates for l
 
 ## Try the CPU example
 
-On Linux with Python 3.11 or 3.12:
+First download/unpack the source archive or clone this repository and open its root directory. On Linux with Python 3.11 or 3.12:
 
 ```bash
+python3 -m venv .venv
+. .venv/bin/activate
 python -m pip install .
 python -m qwen_rl.examples.minimal
 ```
@@ -20,3 +22,7 @@ Start here for [installation, output, and checkpoint behavior](docs/GETTING_STAR
 ARC and Bonsai are optional reference integrations; neither is required by the CPU example. Model weights, datasets, runtime images, credentials, and external services are supplied separately. Support is specific to a configuration and its evidence. Code or an optional dependency being present does not validate every model, backend, GPU, or multi-host setup.
 
 See the [ARC](examples/arc/README.md) and [Bonsai](examples/bonsai/README.md) notes and the [public release evidence scope](docs/PUBLIC_RELEASE.md). Contributions and third-party materials are covered by [CONTRIBUTING.md](CONTRIBUTING.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+The linked guides are distributed in the source archive/repository. A standalone
+wheel contains the runtime package and declared resources, not the documentation
+tree. A hosted documentation URL will be added when the remote repository is published.

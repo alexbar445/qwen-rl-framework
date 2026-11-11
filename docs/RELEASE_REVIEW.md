@@ -55,3 +55,33 @@ The complete extension example produced `[0.0, 1.0]`; relative documentation lin
 were checked locally. The source archive carries its own generated manifest and
 qualification record. These results bind the stated code revision; this final
 documentation entry records the results without changing runtime code.
+
+## Final architecture and first-user review
+
+The shared task/reward, group-admission, update and recovery boundaries are useful
+for framework developers. The outer user workflow still needs refinement:
+
+1. The CPU demonstration is reproducible, but there is no complete public
+   small-model training recipe with configuration, dataset preparation, model
+   backend and Worker startup. ARC/Bonsai notes do not provide that recipe.
+2. Generic adapters are currently injected through the Python application
+   factory; the standard runtime CLI does not select them from configuration.
+   A recommended high-level training entry point remains a product gap.
+3. `Environment.generate_group` receives engine, manager and Worker-pool details.
+   That is an integration interface, rather than a small task-only API. A future
+   public runner should hide those runtime details for ordinary task authors.
+4. The eight CLI groups have distinct responsibilities, but choosing among
+   deployment and runtime front ends still requires framework knowledge.
+
+Two concrete defects were repaired during this review: dashboard help imported
+a removed local-deployment constant; and a custom environment named `arc` could
+accidentally enable ARC catalog logic. The dashboard now has explicit source
+selection, and domain sampling uses an explicit composition flag. Regression
+checks cover all eight help pages without importing model runtimes, offline
+dashboard collection, and the complete generic update/recovery path with a
+colliding environment name.
+
+Quick start now starts from acquired source and an isolated virtual environment.
+Wheel-only readers are told that the full guides are in the source distribution;
+a hosted documentation URL still depends on publication of the remote repository.
+This is a developer walkthrough, not a usability study of external users.

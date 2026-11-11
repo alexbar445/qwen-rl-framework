@@ -93,6 +93,7 @@ class GroupCollectionServices:
     generate_group: Callable[..., Awaitable[dict[str, Any]]]
     metrics_key: str
     environment_name: str
+    arc_sampling: bool
     persist_group: Callable[..., str]
     current_policy_version: Callable[[], int]
     set_failure_stage: Callable[[str], None]
@@ -122,7 +123,7 @@ class GroupCollectionSession:
         self.dispatch_condition = asyncio.Condition()
         source_catalog = None
         dataset_dir = services.config.get("dataset_dir")
-        if services.environment_name == "arc" and dataset_dir:
+        if services.arc_sampling and dataset_dir:
             from ...task_catalog import load_source_catalog
 
             source_catalog = load_source_catalog(dataset_dir)
@@ -153,7 +154,7 @@ class GroupCollectionSession:
             self.source_sampling.tasks_for("synthetic_arc")
             if self.source_sampling is not None else selected_tasks
         )
-        if (services.environment_name == "arc"
+        if (services.arc_sampling
                 and services.config.get('rollout', {}).get('category_sampling', True)
                 and self.task_sampling is None
                 and execution.request.kind == 'training' and len(category_tasks) > 1
@@ -649,7 +650,7 @@ class GroupCollectionSession:
             **({"a_exclusions": result["a_exclusions"]} if "a_exclusions" in result else {}),
             "guided_attempt_status": result.get("guided_attempt_status"),
             **({"family": getattr(task, "family")} if hasattr(task, "family") else {}),
-            **({"category": category(task)} if services.environment_name == "arc" else {}),
+            **({"category": category(task)} if services.arc_sampling else {}),
             "group_size": len(trajectories),
             "worker_ids": result["worker_ids"],
             "generation_worker_ids": result.get("generation_worker_ids", result["worker_ids"]),

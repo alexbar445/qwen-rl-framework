@@ -7,6 +7,8 @@
 Linux、Python 3.11 或 3.12：
 
 ```bash
+python3 -m venv .venv
+. .venv/bin/activate
 python -m pip install .
 python -m qwen_rl.examples.minimal
 ```
@@ -20,3 +22,5 @@ python -m qwen_rl.examples.minimal
 ARC 与 Bonsai 是可选参考集成，CPU 示例不依赖它们。模型权重、数据、运行镜像、凭证和外部服务须由使用者单独准备。支持范围绑定具体配置及其证据；源码中存在某段代码或可选依赖，不代表所有模型、backend、GPU 或多机布局都已验证。
 
 参见 [ARC](examples/arc/README.md)、[Bonsai](examples/bonsai/README.md)、[公开发行证据范围](docs/PUBLIC_RELEASE.md)、[贡献指南](CONTRIBUTING.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。
+
+请先取得并解压源码（或克隆仓库），再在项目根目录运行以上命令。完整指南随源码分发；单独安装 wheel 不会安装文档目录。

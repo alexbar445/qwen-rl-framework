@@ -112,6 +112,7 @@ class RunCoordinatorServices:
     diagnostic_run_kinds: frozenset[str]
     alignment_thresholds: dict[str, float]
     stop_control: Any | None = None
+    arc_sampling: bool = False
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "environment", validate_environment(self.environment))
@@ -617,6 +618,7 @@ class RunCoordinator:
                     generate_group=self._generate_group,
                     metrics_key=services.environment.metrics_key,
                     environment_name=services.environment.name,
+                    arc_sampling=services.arc_sampling,
                     persist_group=services.persist_group,
                     current_policy_version=lambda: int(engine.policy_version),
                     set_failure_stage=state.set_stage,

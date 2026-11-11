@@ -9,9 +9,11 @@ The documented CPU path uses only the base package. It does not need a model, da
 
 ## Install and run
 
-From the repository root:
+Download/unpack the source archive or clone the repository, then open its root. Use an isolated environment to avoid changing system or existing training packages:
 
 ```bash
+python3 -m venv .venv
+. .venv/bin/activate
 python -m pip install .
 python -m qwen_rl.examples.minimal
 ```
@@ -54,3 +56,17 @@ This recovery check covers the toy engine and its checkpoint format. It does not
 - [Extending the framework](EXTENDING.md): the `Environment` and `RewardScorer` contracts.
 - [Support matrix](SUPPORT.md): what the public evidence does and does not establish.
 - [Minimal example source notes](../examples/minimal/README.md): implementation details and limits.
+
+## Choose the next path
+
+| Goal | Start here | Current boundary |
+|---|---|---|
+| Understand and verify the framework | The CPU example above | No model or deployment assets required. |
+| Implement a custom task and reward | [Environment guide](EXTENDING.md) and the Python application factory | This is a programmatic integration; the standard runtime CLI does not yet select arbitrary custom adapters from YAML. |
+| Train a real model | Supply a qualified model backend, Worker managers and runtime configuration | This release has no turnkey, public small-model training recipe. |
+| Operate an already prepared single-host deployment | `instance` with explicit profiles | Requires the external configuration and assets described in [Support](SUPPORT.md). |
+| Integrate remote compute or Workers | `gradients` / `cluster` | Advanced integration; a local toy result does not qualify physical multi-host execution. |
+
+The first path is the current reproducible quick start. The other paths need
+explicit integration work; passing the CPU demo is not evidence that they are
+configured automatically.

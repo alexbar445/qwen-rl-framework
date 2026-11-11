@@ -34,3 +34,7 @@ An `Environment` owns the task catalog, fixture task, stable prompt/reward/sourc
 ## Backends and topology
 
 The coordinator describes shared control flow. It does not make a backend, model, placement, or network topology interchangeable. Learner engines own optimizer/model computation; Worker managers own generation and policy synchronization; deployment adapters provide runtime and host setup. Each such profile needs its own dependencies, configuration, assets, and evidence. See the [support matrix](SUPPORT.md) before interpreting source presence as a validated deployment.
+
+ARC-specific catalog/category sampling is enabled explicitly by the default ARC
+application composition. A custom environment's display name is not a feature
+switch; an injected environment named `arc` remains on the generic path.

@@ -2555,6 +2555,7 @@ def create_learner_app(config: Any, *, engine: Any = None,
     )
 
     run_coordinator = RunCoordinator(RunCoordinatorServices(
+        arc_sampling=not generic_environment,
         config=cfg,
         runtime=app.state,
         engine=engine,

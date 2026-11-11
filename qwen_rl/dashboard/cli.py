@@ -53,6 +53,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.bepa_store is not None:
             parser.error("--bepa-store is available only with --root")
         source = args.source or "local"
+        if source == "local" and args.deployment is None and args.remote_profile is None:
+            parser.error("local dashboard requires --deployment PATH; use --root PATH for offline history")
         if args.instance_manifest is not None and source != "runtime":
             parser.error("--instance-manifest requires --source runtime")
         if source == "learner" and args.deployment is None:

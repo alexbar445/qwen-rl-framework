@@ -29,7 +29,6 @@ from ..runtime.watch_metrics import (
 )
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-from ..deployment.local import DEFAULT_DEPLOYMENT
 MAX_CONFIG_BYTES = 2 * 1024 * 1024
 MAX_WATCH_BODY_BYTES = 8 * 1024 * 1024
 MAX_HISTORY_SAMPLES = 3600
@@ -148,17 +147,17 @@ def _local_source(
     root: Path | str | None,
     explicit_bepa_store: Path | str | None,
 ) -> DashboardSource:
-    deployment_path = Path(deployment).expanduser().resolve(strict=False) if deployment else DEFAULT_DEPLOYMENT
+    deployment_path = Path(deployment).expanduser().resolve(strict=False) if deployment else None
     raw: dict[str, Any] | None = None
     try:
-        info = deployment_path.lstat()
-        if stat_is_regular_file(info.st_mode) and not deployment_path.is_symlink() and info.st_size <= MAX_CONFIG_BYTES:
+        info = deployment_path.lstat() if deployment_path is not None else None
+        if info is not None and stat_is_regular_file(info.st_mode) and not deployment_path.is_symlink() and info.st_size <= MAX_CONFIG_BYTES:
             raw = json.loads(deployment_path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError, ValueError):
         raw = None
     if not isinstance(raw, dict) or raw.get("schema_version") != "qwen-rl-local-deployment/v1":
         if root is None:
-            raise ValueError("local deployment profile is missing or invalid")
+            raise ValueError("supply a valid --deployment profile or select offline --root")
         override = Path(root).expanduser().resolve(strict=False)
         return DashboardSource(
             "local", override, deployment_path, None, None, None,
