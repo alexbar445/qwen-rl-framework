@@ -15,6 +15,8 @@ or Teacher service.
 Download/unpack the source archive or clone the repository, then open its root. Use an isolated environment to avoid changing system or existing training packages:
 
 ```bash
+git clone https://github.com/alexbar445/qwen-rl-framework.git
+cd qwen-rl-framework
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install .

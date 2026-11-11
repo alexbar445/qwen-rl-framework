@@ -12,6 +12,11 @@ license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
 requires-python = ">=3.11,<3.13"
 dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "httpx>=0.27,<1", "pydantic>=2.9,<3", "PyYAML>=6,<7", "blosc2==4.14.1", "jsonschema>=4.23,<5"]
 
+[project.urls]
+Repository = "https://github.com/alexbar445/qwen-rl-framework"
+Documentation = "https://github.com/alexbar445/qwen-rl-framework/blob/main/docs/GETTING_STARTED.md"
+Issues = "https://github.com/alexbar445/qwen-rl-framework/issues"
+
 [project.optional-dependencies]
 small-model = ["torch==2.10.0", "transformers==4.57.6", "peft==0.20.0", "safetensors>=0.4.3,<1"]
 constrained = ["xgrammar>=0.2.7,<0.3", "apache-tvm-ffi>=0.1.10"]

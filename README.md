@@ -7,6 +7,8 @@ A Python framework for grouped rollouts and reinforcement-learning updates for l
 First download/unpack the source archive or clone this repository and open its root directory. On Linux with Python 3.11 or 3.12:
 
 ```bash
+git clone https://github.com/alexbar445/qwen-rl-framework.git
+cd qwen-rl-framework
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install .
@@ -42,4 +44,5 @@ See the [ARC](examples/arc/README.md) and [Bonsai](examples/bonsai/README.md) no
 
 The linked guides are distributed in the source archive/repository. A standalone
 wheel contains the runtime package and declared resources, not the documentation
-tree. A hosted documentation URL will be added when the remote repository is published.
+tree. Read the [hosted getting-started guide](https://github.com/alexbar445/qwen-rl-framework/blob/main/docs/GETTING_STARTED.md)
+when using an installed wheel.

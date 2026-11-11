@@ -7,6 +7,8 @@
 Linux、Python 3.11 或 3.12：
 
 ```bash
+git clone https://github.com/alexbar445/qwen-rl-framework.git
+cd qwen-rl-framework
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install .
@@ -38,3 +40,5 @@ ARC 与 Bonsai 是可选参考集成，CPU 示例不依赖它们。SmolLM2 权�
 参见 [ARC](examples/arc/README.md)、[Bonsai](examples/bonsai/README.md)、[公开发行证据范围](docs/PUBLIC_RELEASE.md)、[贡献指南](CONTRIBUTING.md)和[第三方声明](THIRD_PARTY_NOTICES.md)。
 
 请先取得并解压源码（或克隆仓库），再在项目根目录运行以上命令。完整指南随源码分发；单独安装 wheel 不会安装文档目录。
+
+已安装 wheel 的用户可阅读[在线入门指南](https://github.com/alexbar445/qwen-rl-framework/blob/main/docs/GETTING_STARTED.md)。
