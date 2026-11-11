@@ -11,6 +11,32 @@ Contributions are welcome. Keep changes focused, explain the behavior they chang
 - For performance or capability claims, include the exact source revision, profile, model/artifact, hardware, workload, result, and limitations. Keep CPU, GPU, and multi-host evidence separate.
 - Keep public examples runnable against the exported package, and state whether they need external assets, services, or optional dependencies. Use the [support matrix](docs/SUPPORT.md) for evidence scope and the [architecture](docs/ARCHITECTURE.md) and [extension](docs/EXTENDING.md) guides for the public interfaces.
 
+## Local checks
+
+Install the lightweight development dependencies, then run CPU and documentation
+tests without requiring a prebuilt wheel:
+
+```bash
+python -m pip install '.[test]'
+python -m pytest -q tests --ignore=tests/test_public_packaging.py
+```
+
+The two installed-artifact tests need a prepared wheelhouse. They create their
+own isolated virtual environment and install offline:
+
+```bash
+test_wheelhouse="$(mktemp -d)"
+python -m pip wheel --wheel-dir "$test_wheelhouse" '.[test]'
+PUBLIC_WHEELHOUSE="$test_wheelhouse" \
+PUBLIC_WHEEL_PATH="$test_wheelhouse/qwen_rl_framework-0.1.0-py3-none-any.whl" \
+python -m pytest -q tests/test_public_packaging.py
+```
+
+These commands exercise the public CPU scope. GPU and physical multi-host
+qualification require separately prepared profiles and evidence; see
+[Support](docs/SUPPORT.md). CI repeats the checks against a committed source
+export rather than relying on additional files in a developer's checkout.
+
 ## Pull requests
 
 Describe the problem and the change, note compatibility or configuration effects, and link the relevant CI or runtime evidence. For documentation-only updates, state which source interfaces or release records the text reflects; keep relative links within the exported public tree.
